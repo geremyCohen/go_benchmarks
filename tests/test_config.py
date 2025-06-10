@@ -16,7 +16,7 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(config.default_benchmark, "markdown")
         self.assertTrue("markdown" in config.benchmarks)
         self.assertTrue("go-build" in config.benchmarks)
-        self.assertEqual(len(config.benchmarks), 11)  # Check all benchmarks are loaded
+        self.assertEqual(len(config.benchmarks), 10)  # Check all benchmarks are loaded
         
     def test_get_benchmark_command(self):
         """Test retrieving benchmark commands."""
@@ -33,7 +33,7 @@ class TestConfig(unittest.TestCase):
         """Test getting sorted benchmark names."""
         config = Config()
         names = config.get_benchmark_names()
-        self.assertEqual(len(names), 11)
+        self.assertEqual(len(names), 10)
         self.assertEqual(names[0], "biogo-igor")  # Should be alphabetically sorted
         self.assertEqual(names[-1], "tile38")
         

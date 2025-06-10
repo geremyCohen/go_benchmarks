@@ -103,12 +103,13 @@ def get_instance_zone(name: str) -> str:
         )
         zone = output.strip()
         if not zone:
-            raise ValueError(f"No zone found for instance {name}")
+            print(f"No zone found for instance {name}", file=sys.stderr)
+            sys.exit(1)
         
         # Cache the result
         _zone_cache[name] = zone
         return zone
-    except (subprocess.CalledProcessError, ValueError) as e:
+    except subprocess.CalledProcessError as e:
         print(f"Error fetching zone for instance {name}: {e}", file=sys.stderr)
         sys.exit(1)
     finally:

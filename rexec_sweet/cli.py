@@ -183,8 +183,31 @@ def main():
         # Get instances only once
         instances = get_running_instances() if not args.instance1 and not args.instance2 else []
         
+        # For testing purposes, if both instance1 and instance2 are provided, skip the interactive prompts
+        if args.instance1 and args.instance2:
+            # Get first instance
+            instance1_name, zone1, remote_path1 = select_instance(
+                "Select FIRST instance", [], args.instance1)
+            
+            systems.append({
+                "name": instance1_name,
+                "zone": zone1,
+                "bench": benchmark_name,
+                "remote_dir": remote_path1
+            })
+            
+            # Get second instance
+            instance2_name, zone2, remote_path2 = select_instance(
+                "Select SECOND instance", [], args.instance2)
+            
+            systems.append({
+                "name": instance2_name,
+                "zone": zone2,
+                "bench": benchmark_name,
+                "remote_dir": remote_path2
+            })
         # Check if user wants to use default instances
-        if instances and display_instances_and_prompt(instances):
+        elif instances and display_instances_and_prompt(instances):
             # Get the first two instances with default directories
             instance_configs = get_default_instances(instances)
             

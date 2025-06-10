@@ -1,8 +1,9 @@
 # rexec_sweet - Remote Sweet Benchmark Execution Tool
 
+Please read all the instructions available in the official Arm Learning Path [Go Benchmarks with Sweet](https://developer.arm.com/learning-paths/servers-and-cloud-computing/go-benchmarking-with-sweet/) for complete details on how to use this repo.
+
 This repo serves as a home to the `rexec_sweet` tool, which is designed to run Go benchmarks using the Sweet benchmarking tool on remote Google Cloud Platform (GCP) instances. It automates the process of setting up GCP instances, running benchmarks, and generating reports for comparison.
 
-Please read all the instructions available in the official Arm Learning Path [Go Benchmarks with Sweet](https://developer.arm.com/learning-paths/servers-and-cloud-computing/go-benchmarking-with-sweet/) for complete details on how to use this tool effectively.
 
 ## Installation - Python Environment Setup
 
@@ -14,6 +15,8 @@ If you are on macOS, you can use Homebrew to install `pyenv`:
 ```bash
 brew update
 brew install pyenv
+brew install virtualenv
+brew install pyenv-virtualenv
 ```
 
 ### Linux (Debian/Ubuntu)
@@ -25,13 +28,6 @@ sudo apt-get -y update
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev git
 
 curl https://pyenv.run | bash
-```
-
-### All OSes:  Add to your shell configuration (.bashrc, .zshrc, etc.)
-
-Once you have installed `pyenv`, you need to add it to your shell configuration file. This example uses `.bashrc`, but you can adapt it for your shell (e.g., `.zshrc` for Zsh).
-
-```bash
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
@@ -93,9 +89,3 @@ make test
 make test-cov
 ```
 
-## Requirements
-
-- Python 3.9+
-- Google Cloud SDK
-- Go with benchstat tool installed
-- Sweet benchmarking tool

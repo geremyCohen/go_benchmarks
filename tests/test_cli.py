@@ -75,13 +75,13 @@ class TestCLI(unittest.TestCase):
     def test_select_instance(self, mock_input, mock_zone, mock_choose, mock_instances):
         """Test instance selection."""
         # Setup mocks
-        mock_instances.return_value = ["instance1", "instance2"]
+        instances = ["instance1", "instance2"]
         mock_choose.return_value = "instance1"
         mock_zone.return_value = "us-central1-a"
         mock_input.return_value = ""  # Default path
         
         # Call with no pre-selected instance
-        name, zone, path = select_instance("Select instance")
+        name, zone, path = select_instance("Select instance", instances)
         
         # Verify results
         self.assertEqual(name, "instance1")
@@ -89,7 +89,7 @@ class TestCLI(unittest.TestCase):
         self.assertEqual(path, "~/benchmarks/sweet")
         
         # Call with pre-selected instance
-        name, zone, path = select_instance("Select instance", "instance2")
+        name, zone, path = select_instance("Select instance", instances, "instance2")
         
         # Verify results
         self.assertEqual(name, "instance2")
@@ -125,7 +125,9 @@ class TestCLI(unittest.TestCase):
     @mock.patch('rexec_sweet.cli.select_benchmark')
     @mock.patch('rexec_sweet.cli.select_instance')
     @mock.patch('rexec_sweet.cli.run_benchmarks_parallel')
-    def test_main_success(self, mock_run, mock_select_instance, mock_select_benchmark, mock_parse_args):
+    @mock.patch('rexec_sweet.cli.get_running_instances')
+    @mock.patch('rexec_sweet.cli.display_instances_and_prompt')
+    def test_main_success(self, mock_display, mock_get_instances, mock_run, mock_select_instance, mock_select_benchmark, mock_parse_args):
         """Test successful main execution."""
         # Setup mocks
         args = argparse.Namespace(
@@ -143,6 +145,8 @@ class TestCLI(unittest.TestCase):
             ("instance2", "us-central1-b", "~/benchmarks")
         ]
         mock_run.return_value = []  # No errors
+        mock_get_instances.return_value = ["instance1", "instance2"]
+        mock_display.return_value = False  # Don't use default instances
         
         # Mock the BenchmarkRunner
         with mock.patch('rexec_sweet.cli.BenchmarkRunner') as mock_runner_class:
