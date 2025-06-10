@@ -13,25 +13,41 @@ Please follow the instructions below to set up your Python environment using `py
 If you are on macOS, you can use Homebrew to install `pyenv`:
 
 ```bash
+# Update Homebrew
 brew update
-brew install pyenv
-brew install virtualenv
-brew install pyenv-virtualenv
+
+# Check and install required packages
+for package in pyenv virtualenv pyenv-virtualenv; do
+  if which $package &>/dev/null || brew list $package &>/dev/null; then
+    echo "$package is already installed"
+  else
+    echo "Installing $package..."
+    brew install $package
+  fi
+done
 ```
 
 ### Linux (Debian/Ubuntu)
 On Linux, you can install `pyenv` and its dependencies using the following commands. This example uses `apt-get` for Debian/Ubuntu flavors, but you can adapt it for your specific distribution (e.g., `yum`, `dnf`, etc.).
 
 ```bash
+# Update package lists
 sudo apt-get -y update
 
+# Install dependencies
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev git
 
-curl https://pyenv.run | bash
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-source ~/.bashrc
+# Check if pyenv is already installed
+if which pyenv &>/dev/null; then
+  echo "pyenv is already installed"
+else
+  echo "Installing pyenv..."
+  curl https://pyenv.run | bash
+  echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+  echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+  source ~/.bashrc
+fi
 ```
 
 ### All OSes:  Setting up Python 3.9.22 with pyenv and virtualenv
