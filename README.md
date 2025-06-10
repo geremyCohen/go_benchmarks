@@ -2,25 +2,27 @@
 
 A tool for running Go benchmarks using Sweet on remote GCP instances and comparing results.
 
-## Installation
+## Installation - Python Environment Setup
 
-### Python Environment Setup
-
-#### Installing pyenv
+### macOS
 
 ```bash
-# macOS (using Homebrew)
 brew update
 brew install pyenv
+```
 
-# Linux
+### Linux
+
+```bash
 sudo apt-get -y update
 
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
 
 curl https://pyenv.run | bash
+```
 
-# Add to your shell configuration (.bashrc, .zshrc, etc.)
+### Common:  Add to your shell configuration (.bashrc, .zshrc, etc.)
+```bash
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
@@ -28,7 +30,8 @@ echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 
 Restart your shell or run `source ~/.bashrc` (or your appropriate shell config file).
 
-#### Setting up Python 3.9.22 with pyenv and virtualenv
+### Common:  Setting up Python 3.9.22 with pyenv and virtualenv
+Although this may run on other versions of Python, setup a 3.9.22 environment with pyenv and virtualenv to make sure you run it against a tested version.
 
 ```bash
 # Install Python 3.9.22
