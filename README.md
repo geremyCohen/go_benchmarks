@@ -30,6 +30,17 @@ echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 
 Restart your shell or run `source ~/.bashrc` (or your appropriate shell config file).
 
+This script is intended to run on a local machine, not on the remote GCP instances. 
+
+On your local machine, clone the repository, enter the directory, and set up the Python environment:
+
+```bash
+git clone https://github.com/geremyCohen/go_benchmarks.git
+cd go_benchmarks
+pyenv local rexec-sweet-env
+```
+
+```bash
 ### Common:  Setting up Python 3.9.22 with pyenv and virtualenv
 Although this may run on other versions of Python, setup a 3.9.22 environment with pyenv and virtualenv to make sure you run it against a tested version.
 
@@ -39,6 +50,17 @@ pyenv install 3.9.22
 
 # Create a virtualenv for this project
 pyenv virtualenv 3.9.22 rexec-sweet-env
+
+This script is intended to run on a local machine, not on the remote GCP instances. 
+
+On your local machine, clone the repository, enter the directory, and set up the Python environment:
+
+```bash
+git clone https://github.com/geremyCohen/go_benchmarks.git
+cd go_benchmarks
+pyenv local rexec-sweet-env
+```
+
 
 # Activate the virtualenv
 pyenv activate rexec-sweet-env
