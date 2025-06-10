@@ -1,76 +1,63 @@
 # rexec_sweet - Remote Sweet Benchmark Execution Tool
 
-A tool for running Go benchmarks using Sweet on remote GCP instances and comparing results.
+This repo serves as a home to the `rexec_sweet` tool, which is designed to run Go benchmarks using the Sweet benchmarking tool on remote Google Cloud Platform (GCP) instances. It automates the process of setting up GCP instances, running benchmarks, and generating reports for comparison.
+
+Please read all the instructions available in the official Arm Learning Path [Go Benchmarks with Sweet](https://developer.arm.com/learning-paths/servers-and-cloud-computing/go-benchmarking-with-sweet/) for complete details on how to use this tool effectively.
 
 ## Installation - Python Environment Setup
 
+Please follow the instructions below to set up your Python environment using `pyenv` and `virtualenv` based on your local machine's OS.
+
 ### macOS
+If you are on macOS, you can use Homebrew to install `pyenv`:
 
 ```bash
 brew update
 brew install pyenv
 ```
 
-### Linux
+### Linux (Debian/Ubuntu)
+On Linux, you can install `pyenv` and its dependencies using the following commands. This example uses `apt-get` for Debian/Ubuntu flavors, but you can adapt it for your specific distribution (e.g., `yum`, `dnf`, etc.).
 
 ```bash
 sudo apt-get -y update
 
-sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev git
 
 curl https://pyenv.run | bash
 ```
 
-### Common:  Add to your shell configuration (.bashrc, .zshrc, etc.)
+### All OSes:  Add to your shell configuration (.bashrc, .zshrc, etc.)
+
+Once you have installed `pyenv`, you need to add it to your shell configuration file. This example uses `.bashrc`, but you can adapt it for your shell (e.g., `.zshrc` for Zsh).
+
 ```bash
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
-Restart your shell or run `source ~/.bashrc` (or your appropriate shell config file).
+### All OSes:  Setting up Python 3.9.22 with pyenv and virtualenv
 
-This script is intended to run on a local machine, not on the remote GCP instances. 
-
-On your local machine, clone the repository, enter the directory, and set up the Python environment:
+Setup a 3.9.22 environment with pyenv and virtualenv to make sure you run it against a tested Python version.
 
 ```bash
-git clone https://github.com/geremyCohen/go_benchmarks.git
-cd go_benchmarks
-pyenv local rexec-sweet-env
-```
 
-```bash
-### Common:  Setting up Python 3.9.22 with pyenv and virtualenv
-Although this may run on other versions of Python, setup a 3.9.22 environment with pyenv and virtualenv to make sure you run it against a tested version.
-
-```bash
 # Install Python 3.9.22
 pyenv install 3.9.22
 
 # Create a virtualenv for this project
 pyenv virtualenv 3.9.22 rexec-sweet-env
 
-This script is intended to run on a local machine, not on the remote GCP instances. 
-
-On your local machine, clone the repository, enter the directory, and set up the Python environment:
-
-```bash
+# Clone the repository and set the local pyenv version
 git clone https://github.com/geremyCohen/go_benchmarks.git
 cd go_benchmarks
 pyenv local rexec-sweet-env
 ```
 
-
-# Activate the virtualenv
-pyenv activate rexec-sweet-env
-# Or navigate to the project directory and set local Python version
-cd /path/to/project
-pyenv local rexec-sweet-env
-```
-
 #### Installing the package
-
+You should already be in the `go_benchmarks` directory after the last step. Now, you can install the `rexec_sweet` package in editable mode.
 ```bash
 # Install from the project directory
 pip install -e .
@@ -78,32 +65,21 @@ pip install -e .
 
 ## Usage
 
+### Auth with GCP
+Run the following command to authenticate with GCP.  This will open a browser window to log in with your Google account.
+
+```bash
+gcloud auth login
+```
+> [!IMPORTANT]
+> If you get SSH warnings about key files or creating directories for SSH keys, choose "Yes" to create the directories and keys.  This is required for the tool to work properly. When asked for passphrases, you can leave them blank by pressing Enter.
+
+
+### Running Benchmarks
 ```bash
 # Run the tool
 rexec-sweet
-
-# Run with specific benchmark and instances
-rexec-sweet --benchmark markdown --instance1 c4-96 --instance2 c4-64
-
-# Generate report from existing benchstat file
-rexec-sweet --report results/benchstat.results --output-dir ./my-report
 ```
-
-## Project Structure
-
-```
-rexec_sweet/
-├── __init__.py          # Package exports
-├── benchmark_runner.py  # Benchmark execution logic
-├── benchstat_report.py  # Report generation
-├── cli.py               # Command-line interface
-├── config.py            # Configuration management
-├── gcp_utils.py         # GCP interaction utilities
-└── visualization.py     # Data visualization
-
-tests/                   # Test suite
-```
-
 ## Running Tests
 
 ```bash
