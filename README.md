@@ -7,7 +7,7 @@ This repo serves as a home to the `rexec_sweet` tool, which is designed to run G
 
 ## Installation
 
-Please see installation instructions in the [rexec_sweet_install.md](content/learning-paths/servers-and-cloud-computing/go-benchmarking-with-sweet/rexec_sweet_install.md) file.
+Please see installation instructions in the [rexec_sweet_install.md](https://developer.arm.com/learning-paths/servers-and-cloud-computing/go-benchmarking-with-sweet/rexec_sweet_install.md) file.
 
 ## Usage
 
@@ -29,7 +29,7 @@ After installation and authentication, you can run the `rexec-sweet` command to 
 # Run the tool
 rexec-sweet
 ```
-## Running Tests (optional)
+## Tests (optional)
 To run tests for the `rexec_sweet` tool, you can use the provided Makefile. This will ensure that all dependencies are installed and that the tests are executed correctly.
 
 ```bash
