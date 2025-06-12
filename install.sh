@@ -36,7 +36,6 @@ elif [ "$OS" = "Linux" ]; then
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
     echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-    source ~/.bashrc
   fi
 
 else
@@ -47,6 +46,7 @@ fi
 
 
 # Install Python 3.9.22
+source ~/.bashrc
 pyenv install 3.9.22
 
 # Create a virtualenv for this project
