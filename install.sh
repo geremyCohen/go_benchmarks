@@ -145,7 +145,11 @@ fi
 ##########
 # Final auth step
 echo "Running gcloud auth login..."
-gcloud auth login
+gcloud auth login --no-launch-browser
 
 # Force new shell with pyenv to continue
-exec bash --login
+if [ "$OS" = "Darwin" ]; then
+  exec zsh --login
+else
+  exec bash --login
+fi
