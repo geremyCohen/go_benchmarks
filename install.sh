@@ -105,3 +105,6 @@ pip install -e .
 # Final auth step
 echo "Running gcloud auth login..."
 gcloud auth login
+
+# Force new shell with pyenv to continue
+exec bash --login
