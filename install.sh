@@ -147,6 +147,44 @@ fi
 echo "Running gcloud auth login..."
 gcloud auth login --no-launch-browser
 
+# Check if project is set and let user select if not
+echo "Checking GCP project configuration..."
+CURRENT_PROJECT=$(gcloud config get-value project 2>/dev/null)
+if [ -z "$CURRENT_PROJECT" ] || [ "$CURRENT_PROJECT" = "(unset)" ]; then
+  echo "No project currently set. Fetching available projects..."
+  
+  # Get all available projects in a way compatible with both bash and zsh, sorted alphabetically
+  PROJECTS=$(gcloud projects list --format="value(projectId)" | sort)
+  PROJECT_COUNT=$(echo "$PROJECTS" | wc -l | tr -d ' ')
+  
+  if [ "$PROJECT_COUNT" -eq 0 ]; then
+    echo "No projects found. Please set a project manually with: gcloud config set project PROJECT_ID"
+  else
+    echo "Available projects:"
+    PROJECT_NUM=1
+    echo "$PROJECTS" | while read -r PROJECT; do
+      echo "$PROJECT_NUM. $PROJECT"
+      PROJECT_NUM=$((PROJECT_NUM + 1))
+    done
+    
+    # Ask user to select a project
+    while true; do
+      printf "Enter number (1-%s) to select your default project: " "$PROJECT_COUNT"
+      read CHOICE
+      if [ "$CHOICE" -ge 1 ] 2>/dev/null && [ "$CHOICE" -le "$PROJECT_COUNT" ] 2>/dev/null; then
+        SELECTED_PROJECT=$(echo "$PROJECTS" | sed -n "${CHOICE}p")
+        echo "Setting project to $SELECTED_PROJECT"
+        gcloud config set project "$SELECTED_PROJECT"
+        break
+      else
+        echo "Invalid selection. Please enter a number between 1 and $PROJECT_COUNT."
+      fi
+    done
+  fi
+else
+  echo "Using project: $CURRENT_PROJECT"
+fi
+
 # Force new shell with pyenv to continue
 if [ "$OS" = "Darwin" ]; then
   exec zsh --login
