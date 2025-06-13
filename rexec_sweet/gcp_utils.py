@@ -23,10 +23,11 @@ def show_spinner(stop_event, message="Fetching instances"):
 
 def get_running_instances() -> List[str]:
     """
-    Return a list of names of GCP VMs that are currently RUNNING.
+    Return a list of names of GCP VMs that are currently RUNNING,
+    sorted from oldest to newest.
     
     Returns:
-        List of instance names
+        List of instance names sorted by creation time
     """
     stop_event = threading.Event()
     spinner_thread = threading.Thread(target=show_spinner, args=(stop_event, "Fetching instances"))
@@ -37,6 +38,7 @@ def get_running_instances() -> List[str]:
         output = subprocess.check_output(
             ["gcloud", "compute", "instances", "list",
              "--filter=status=RUNNING",
+             "--sort-by=creationTimestamp",
              "--format=value(name)"],
             universal_newlines=True
         )

@@ -123,6 +123,26 @@ echo "Installing Python dependencies..."
 pip install -e .
 
 ##########
+# Generate SSH keys for Google Compute Engine without passphrase
+echo "Generating SSH keys for Google Compute Engine..."
+SSH_DIR="$HOME/.ssh"
+GCE_KEY="$SSH_DIR/google_compute_engine"
+
+# Create .ssh directory if it doesn't exist
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+
+# Generate SSH key without passphrase if it doesn't exist
+if [ ! -f "$GCE_KEY" ]; then
+  ssh-keygen -t rsa -f "$GCE_KEY" -N "" -C "$USER"
+  chmod 600 "$GCE_KEY"
+  chmod 644 "$GCE_KEY.pub"
+  echo "SSH keys generated successfully."
+else
+  echo "SSH keys already exist."
+fi
+
+##########
 # Final auth step
 echo "Running gcloud auth login..."
 gcloud auth login
